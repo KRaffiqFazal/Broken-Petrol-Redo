@@ -8,7 +8,7 @@ public class VehicleFactory
 {
     public IVehicle CreateVehicle()
     {
-        Random rnd = new Random();
+        Random rnd = new();
         
         string[] vehicleTypes = { "Car", "Van", "HGV" };
         string vehicleType = vehicleTypes[rnd.Next(0, vehicleTypes.Length)];
