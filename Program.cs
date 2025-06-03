@@ -3,7 +3,7 @@ using Broken_Petrol_Redo.Interfaces;
 
 namespace Broken_Petrol_Redo;
 
-class Program
+internal class Program
 {
     static void Main(string[] args)
     {
