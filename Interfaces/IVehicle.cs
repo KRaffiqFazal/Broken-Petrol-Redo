@@ -3,6 +3,8 @@
 public interface IVehicle
 {
     int CurrentCapacity { get; set; }
-    static int MaxCapacity { get; set; }
     string FuelType {get; set; }
+
+    public int FuelDif();
+    int Fueled();
 }
