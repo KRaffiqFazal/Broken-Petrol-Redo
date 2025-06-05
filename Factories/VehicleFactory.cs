@@ -6,16 +6,16 @@ namespace Broken_Petrol_Redo.Factories;
 
 public class VehicleFactory
 {
-    public IVehicle CreateVehicle()
+    private IVehicle CreateVehicle()
     {
         Random rnd = new();
-        
+
         string[] vehicleTypes = { "Car", "Van", "HGV" };
         string vehicleType = vehicleTypes[rnd.Next(0, vehicleTypes.Length)];
-        
-        string[] fuelTypes = { "Petrol", "Diesel",  "LPG" };
+
+        string[] fuelTypes = { "Petrol", "Diesel", "LPG" };
         string fuelType;
-        
+
         switch (vehicleType)
         {
             case "Car":
@@ -29,5 +29,17 @@ public class VehicleFactory
             default:
                 throw new ApplicationException("Invalid vehicle type");
         }
+    }
+
+    public IFunctioningVehicle CreateFunctioningVehicle(bool waiting = true)
+    {
+        IVehicle vehicle = CreateVehicle();
+        if(waiting)
+        {
+            Random rnd = new();
+            return new WaitingVehicle(vehicle, rnd.Next(1000, 2000));
+        }
+
+        return new FuelingVehicle(vehicle, vehicle.FuelDif());
     }
 }
