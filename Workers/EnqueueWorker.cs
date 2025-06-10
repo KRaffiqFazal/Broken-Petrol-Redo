@@ -6,7 +6,7 @@ namespace Broken_Petrol_Redo.Workers;
 
 public class EnqueueWorker
 {
-    private Queue<IFunctioningVehicle> _queue = new();
+    private List<IFunctioningVehicle> _queue = new();
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     private void Enqueue(IFunctioningVehicle waitingVehicle)
@@ -15,14 +15,16 @@ public class EnqueueWorker
         {
             return;
         }
-        _queue.Enqueue(waitingVehicle);
+        _queue.Add(waitingVehicle);
     }
 
     public IFunctioningVehicle Dequeue()
     {
         try
         {
-            return _queue.Dequeue();
+            IFunctioningVehicle selectedVehicle = _queue[^1];
+            _queue.Remove(selectedVehicle);
+            return selectedVehicle;
         }
         catch (InvalidOperationException)
         {
@@ -56,7 +58,7 @@ public class EnqueueWorker
         {
             try
             {
-                _queue =  new Queue<IFunctioningVehicle>(_queue.Where(x => !x.IsCompleted));
+                _queue.RemoveAll(x => x.IsCompleted);
             }
             catch (OperationCanceledException)
             {
