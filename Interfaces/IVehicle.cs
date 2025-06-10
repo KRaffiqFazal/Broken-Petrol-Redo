@@ -5,6 +5,6 @@ public interface IVehicle
     int CurrentCapacity { get; set; }
     string FuelType {get; set; }
 
-    public int FuelDif();
+    int FuelDif();
     int Fueled();
 }
