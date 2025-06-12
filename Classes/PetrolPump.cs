@@ -28,4 +28,9 @@ public class PetrolPump : IFuelPump
         Blocked = false;
     }
 
+    public bool AttachVehicle(IFunctioningVehicle vehicle)
+    {
+        FuellingVehicle = new FuelingVehicle(vehicle.CurrentVehicle);
+        return true;
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace Broken_Petrol_Redo.Interfaces;
+﻿using Broken_Petrol_Redo.Classes;
+
+namespace Broken_Petrol_Redo.Interfaces;
 
 public interface IFuelPump
 {
@@ -7,5 +9,5 @@ public interface IFuelPump
     bool CanFuel { get; set; }
     bool Blocked { get; set; }
     void ReleaseVehicle();
-    
+    bool AttachVehicle(IFunctioningVehicle vehicle);
 }
