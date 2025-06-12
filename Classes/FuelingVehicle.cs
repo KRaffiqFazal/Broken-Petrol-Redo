@@ -11,11 +11,11 @@ public class FuelingVehicle: IFunctioningVehicle
     private readonly Timer _completionTimer;
     public int LitresDifference { get; set; }
 
-    public FuelingVehicle(IVehicle vehicle, int fuelingTime)
+    public FuelingVehicle(IVehicle vehicle)
     {
         CurrentVehicle = vehicle;
         IsCompleted = false;
-        _completionTimer = new(fuelingTime);
+        _completionTimer = new(vehicle.FuelDif() * 1000);
         _completionTimer.AutoReset = false;
         _completionTimer.Elapsed += CompletionTimerOnElapsed; 
         _completionTimer.Enabled = true;
