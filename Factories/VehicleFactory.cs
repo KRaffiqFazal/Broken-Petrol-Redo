@@ -40,6 +40,6 @@ public class VehicleFactory
             return new WaitingVehicle(vehicle, rnd.Next(1000, 2000));
         }
 
-        return new FuelingVehicle(vehicle, vehicle.FuelDif());
+        return new FuelingVehicle(vehicle);
     }
 }
