@@ -55,6 +55,7 @@ public class EnqueueWorker
             {
                 await Task.Delay(rnd.Next(1500, 2200), ct);
                 Enqueue(factory.CreateFunctioningVehicle());
+                Display();
             }
             catch (OperationCanceledException)
             {
@@ -66,11 +67,16 @@ public class EnqueueWorker
     public async Task RemoveWaitingVehicles()
     {
         CancellationToken  ct = _cancellationTokenSource.Token;
+        int preSize = -1;
+        int postSize = -1;
         while (!ct.IsCancellationRequested)
         {
             try
             {
+                preSize = _queue.Count;
                 _queue.RemoveAll(x => x.IsCompleted);
+                postSize = _queue.Count;
+                if (preSize != postSize) Display();
             }
             catch (OperationCanceledException)
             {
@@ -93,6 +99,7 @@ public class EnqueueWorker
                         if (pump.FuellingVehicle.IsCompleted)
                         {
                             pump.ReleaseVehicle();
+                            Display();
                         }
                     }
                 }
@@ -114,6 +121,7 @@ public class EnqueueWorker
                 KeyValuePair<int,int> availablePump = GetAvailablePumpIndex();
                 IFunctioningVehicle toFuel = Dequeue();
                 _petrolPumps[availablePump.Key][availablePump.Value].AttachVehicle(toFuel);
+                // TODO: Add function to block pumps based on pumps that are now in use.
             }
             catch (OperationCanceledException)
             {
@@ -140,5 +148,11 @@ public class EnqueueWorker
     public void StopFunction()
     {
         _cancellationTokenSource.Cancel();
+    }
+
+    private void Display()
+    {
+        Console.Clear();
+        Console.WriteLine(ForecourtDisplay.Display(_petrolPumps, _queue));
     }
 }
